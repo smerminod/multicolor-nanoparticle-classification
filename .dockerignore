@@ -1,0 +1,59 @@
+# Prevents unnecessary files from being copied into Docker image.
+# Improves build performance and reduces image size.
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE / Editor-specific files
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Data directory (should be mounted as volume, not copied)
+data/
+
+# Git repository
+.git/
+.gitignore
+.gitattributes
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Testing and coverage reports
+.coverage
+
+# Documentation (except README and LICENSE)
+*.md
+!README.md
+!LICENSE
+
+
+# Directories to ignore
+tests/
+
+# Development directories - exclude for production, include for demo.
+# Uncomment the following lines as needed.
+# scripts/  
+# notebooks/

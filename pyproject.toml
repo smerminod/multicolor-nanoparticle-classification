@@ -1,0 +1,92 @@
+# This file defines the project's metadata and dependencies.
+# It also includes configurations for testing and coverage tools.
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Project metadata
+[project]
+name = "multicolor_nanoparticle_classification"
+version = "0.1.0"
+description = "A pipeline for classifying multicolor nanoparticles from electron microscopy images."
+authors = [
+    { name = "Simon Merminod" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.12"
+
+# Core dependencies for the analysis pipeline
+dependencies = [
+    "pyyaml",
+    "pydantic",
+    "numpy",
+    "scikit-image",
+    "pandas"
+]
+
+# Project URLs for documentation, source code, and issue tracking
+[project.urls]
+Homepage = "https://github.com/smerminod/multicolor-nanoparticle-classification"
+Repository = "https://github.com/smerminod/multicolor-nanoparticle-classification"
+Issues = "https://github.com/smerminod/multicolor-nanoparticle-classification/issues"
+
+# Optional dependencies for development and interactive work.
+# These can be installed using `pip install .[dev]` or `pip install .[test]`
+[project.optional-dependencies]
+dev = [
+    "matplotlib",
+    "jupyter",
+    "notebook"
+]
+test = [
+    "pytest>=8.4.2",                    
+    "pytest-mock>=3.15.1",
+    "pytest-cov>=7.0.0"
+]
+
+# This tells packaging tools where to find your actual source code
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Configuration for pytest to discover and run tests
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--color=yes",
+    "--strict-markers"
+]
+markers = [
+    "integration: marks tests as integration tests (deselect with '-m \"not integration\"')"
+]
+
+# Configuration for coverage.py to exclude from coverage
+[tool.coverage.run]
+omit = [
+    "*/__init__.py",
+    "tests/*",
+    "*/__pycache__/*",
+    "*/venv/*",  
+    "*/.venv/*"
+]
+
+# Configuration for coverage.py reporting
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError"
+]
+fail_under = 80
+show_missing = true
+
+# Ruff linter configuration
+[tool.ruff]
+line-length = 100  # Scientific computing standard (more readable than 79)
+target-version = "py312"  # Enable Python 3.12 features
