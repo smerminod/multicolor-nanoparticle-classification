@@ -23,7 +23,7 @@ RUN if [ "$INSTALL_DEV" = "true" ] ; then \
 COPY . .
 
 # Install package
-RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir -e .
 
 # Create a user for the container for security
 RUN useradd -m -u 1000 appuser && chown -R appuser /app
@@ -32,4 +32,4 @@ USER appuser
 # Set the default command to run when the container starts.
 # This makes the container executable and allows passing command-line
 # arguments directly to main.py.
-ENTRYPOINT ["python", "main.py"]
+CMD ["python", "main.py"]

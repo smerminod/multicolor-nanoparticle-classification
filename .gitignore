@@ -6,6 +6,10 @@
 __pycache__/
 *.pyc
 
+# Distribution / packaging
+*.egg-info/
+*.egg
+
 # Virtual Environments
 .env
 .venv

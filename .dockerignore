@@ -7,6 +7,10 @@ __pycache__/
 .pytest_cache/
 .coverage
 
+# Distribution / packaging
+*.egg-info/
+*.egg
+
 # Virtual Environments
 .env
 .venv
@@ -48,10 +52,6 @@ Dockerfile
 *.md
 !README.md
 !LICENSE
-
-
-# Directories to ignore
-tests/
 
 # Development directories - exclude for production, include for demo.
 # Uncomment the following lines as needed.
