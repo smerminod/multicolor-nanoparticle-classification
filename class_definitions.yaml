@@ -9,9 +9,9 @@
 #   nanoparticle_classes:
 #     <class_name>:
 #       elemental_fractions:
-#         Tb: <fraction>  # Terbium     (main target of "CL blue" channel, peak emission ~537 nm)
-#         Dy: <fraction>  # Dysprosium  (main target of "CL green" channel, peak emission ~565 nm)
-#         Ho: <fraction>  # Holmium     (main target of "CL red" channel, peak emission ~640 nm)
+#         Tb: <fraction>  # Terbium     (main target of "CL blue" channel, peak emission ~547 nm)
+#         Dy: <fraction>  # Dysprosium  (main target of "CL green" channel, peak emission ~573 nm)
+#         Ho: <fraction>  # Holmium     (main target of "CL red" channel, peak emission ~646 nm)
 #         Gd: <fraction>  # Gadolinium  (no significant CL emission)
 #         Y:  <fraction>  # Yttrium     (no significant CL emission)
 #
@@ -25,8 +25,8 @@
 #   Dy100:  # Pure Dysprosium
 #     elemental_fractions: {Tb: 0.0, Dy: 1.0, Ho: 0.0, Gd: 0.0, Y: 0.0}
 #
-#   Tb50Dy50:  # 50/50 mixture
-#     elemental_fractions: {Tb: 0.5, Dy: 0.5, Ho: 0.0, Gd: 0.0, Y: 0.0}
+#   Dy50Ho50:  # 50/50 co-doping with Dy and Ho
+#     elemental_fractions: {Tb: 0.0, Dy: 0.5, Ho: 0.5, Gd: 0.0, Y: 0.0}
 
 nanoparticle_classes:
   # Single-element classes

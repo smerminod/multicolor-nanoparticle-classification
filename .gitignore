@@ -16,7 +16,7 @@ __pycache__/
 env/
 venv/
 
-# Temporary files and diredctories
+# Temporary files and directories
 tmp/
 
 # Pytest
@@ -81,4 +81,4 @@ data/**/*
 !/scripts/.gitkeep
 
 # Always keep the init.py files.
-!/src/**/init.py
+!/src/**/__init__.py

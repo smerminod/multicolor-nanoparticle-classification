@@ -6,6 +6,12 @@
 # definitions in class_definitions.yaml and the pipeline configurations 
 # in config.yaml.
 
+# TODO:
+#   - Add beam_energy (EHT) field (default_beam_energy: 4 keV)
+#   - Add aperture_size field (default_aperture_size: 30 um)
+#   - Add working_distance field (default_working_distance: 6.25 mm
+#     (typical range 6.0-6.5 mm))
+
 # Common experiment settings (reusable defaults)
 experiment_defaults:
   default_beam_current: &default_beam_current
@@ -32,7 +38,9 @@ project_constants:
       focal_length_mm: 1
     channels:
       blue:
-        filter_model: 'Chroma ET550/20X'  # range 540-560 nm
+        # Current filter range: 530-560 nm (updated post-2023)
+        # Note: Our Nat. Commun. (2025) paper references Chroma ET550/20X (540-560 nm)
+        filter_model: 'Chroma AT545/30'
         detector_model: 'Hamamatsu H7421-40'
       green:
         filter_model: 'Semrock FF03-575/25-25'  # range 563-588 nm
@@ -48,8 +56,9 @@ training_data:
 
   # Group for physical experiments with single particles
   #
-  # v1.0: Only physical_single_particle is supported
-  # v2.0+: Reserved group names for future use:
+  # Current support:
+  #   - physical_single_particle (implemented)
+  # Planned / Reserved for future use:
   #   - simulated_single_particle (same schema as physical_single_particle)
   #   - simulated_multi_particle (different schema: composition_labels + per-particle CSV ground truth)
   physical_single_particle:
@@ -81,6 +90,7 @@ training_data:
       metadata_templates: 'default_metadata_templates'
 
     # Add more physical single-particle datasets...
+    # Note: 14 additional physical_single_particle datasets are available and omitted here for brevity
   
   # Add more dataset groups as needed (e.g., simulated_single_particle, simulated_multi_particle)...
             
@@ -91,7 +101,7 @@ inference_data:
   physical_multi_particle:
 
     '2025-07-02_6-component-mixture':
-      # The list of all possible nanoparticle classes present in the initial mixture
+      # The list of all possible nanoparticle classes present in the multi-color mixture
       # and thus that the model can predict for this specific experiment. The definitions 
       # for these classes are in class_definitions.yaml.
       possible_composition_labels:
@@ -102,7 +112,12 @@ inference_data:
         - 'Dy50Ho50'
         - 'Dy30Ho70'
 
-      # Priors for the Bayesian model, reflecting the known initial mixture
+      # Priors for the Bayesian model.
+      # These values are derived from the relative volumes of the nanoparticle suspensions 
+      # mixed to create the sample (e.g., 1:1:1:1:1:1 mixture by volume). 
+      # Note: The absolute particle concentration of each suspension was not independently 
+      # assessed; therefore, these priors assume comparable particle concentrations across
+      # the mixed volumes.
       mixture_priors: 'equal_split'
 
       # Experiment-specific instrument setting: The beam current is constant for all regions in this experiment
