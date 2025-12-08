@@ -97,7 +97,7 @@ The **declarative YAML-based configuration system** ensures reproducibility and 
 - **Configuration-Driven Architecture**: Three-tier YAML system (class definitions, processing templates, experiment registry)
 - **Probabilistic Multivariate Classification**: Implements the Bayesian framework described above
 - **Full Data Provenance**: The configuration system ensures complete traceability. Every processed output can be traced back to the exact experimental parameters and software version used to generate it.
-- **Comprehensive Validation**: Pydantic schemas with cross-file reference checking and scientific constraint validation
+- **Comprehensive Validation**: Pydantic schemas for YAML structure validation; config loader performs cross-file reference checking
 - **Automated Path Management**: Intelligent directory structure generation following best practices conventions
 - **Extensive Testing**: 120 tests with 96% coverage, including integration tests with real configuration files
 - **CI/CD Pipeline**: Automated testing, linting (Ruff), and coverage reporting (Codecov)
