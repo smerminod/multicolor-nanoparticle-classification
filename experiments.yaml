@@ -1,0 +1,133 @@
+# ===================================================================
+# Experimental Database
+# ===================================================================
+# This file contains the scientific metadata common to all experiments
+# as well as for each experiment separately, referencing the class 
+# definitions in class_definitions.yaml and the pipeline configurations 
+# in config.yaml.
+
+# TODO:
+#   - Add beam_energy (EHT) field (default_beam_energy: 4 keV)
+#   - Add aperture_size field (default_aperture_size: 30 um)
+#   - Add working_distance field (default_working_distance: 6.25 mm
+#     (typical range 6.0-6.5 mm))
+
+# Common experiment settings (reusable defaults)
+experiment_defaults:
+  default_beam_current: &default_beam_current
+    estimate: 0.175
+    unit: 'nA'
+    type: 'nominal'
+    notes: >
+      "Not measured. "
+      "Estimated nominal value ~175 pA (typical range 150-200 pA) based on instrument specs. "
+      "Ho's CL signal plateaus in this range."
+
+# Project-level constants (automatically merged into all experiments in config_loader.py)
+project_constants:
+  # Sample information
+  substrate: 'Silicon (Si) wafer'
+  host_matrix: 'Sodium Fluoride (NaXF4, X=rare earth element(s))'
+  # Instrument information
+  instrument_model: 'Zeiss SUPRA 55VP (custom-modified)'
+  # Detection system information
+  CL_detection_system:
+    mirror:
+      type: 'parabolic'
+      collection_angle_steradian: 4.21
+      focal_length_mm: 1
+    channels:
+      blue:
+        # Current filter range: 530-560 nm (updated post-2023)
+        # Note: Our Nat. Commun. (2025) paper references Chroma ET550/20X (540-560 nm)
+        filter_model: 'Chroma AT545/30'
+        detector_model: 'Hamamatsu H7421-40'
+      green:
+        filter_model: 'Semrock FF03-575/25-25'  # range 563-588 nm
+        detector_model: 'Hamamatsu H7421-40'
+      red:
+        filter_model: 'Chroma ET645/30X'  # range 630-660 nm
+        detector_model: 'Hamamatsu H7421-40'
+  SE_detection_system:
+    detector_type: 'Everhart-Thornley'
+
+# Datasets to train the model on
+training_data:
+
+  # Group for physical experiments with single particles
+  #
+  # Current support:
+  #   - physical_single_particle (implemented)
+  # Planned / Reserved for future use:
+  #   - simulated_single_particle (same schema as physical_single_particle)
+  #   - simulated_multi_particle (different schema: composition_labels + per-particle CSV ground truth)
+  physical_single_particle:
+
+    '2024-06-29_Dy100':
+      # The nanoparticle class label for this dataset (must match one defined in class_definitions.yaml)
+      composition_label: 'Dy100'
+
+      # Experiment-specific instrument setting: The beam current is constant for all regions in this experiment
+      beam_current: *default_beam_current
+
+      # Configurations (defaults and templates must match those defined in config.yaml)
+      raw_config: 'default_raw_config'
+      processed_config: 'default_processed_config'
+      metadata_templates: 'default_metadata_templates'
+
+    '2024-06-29_Ho100':
+      composition_label: 'Ho100'
+      beam_current: *default_beam_current
+      raw_config: 'default_raw_config'
+      processed_config: 'default_processed_config'
+      metadata_templates: 'default_metadata_templates'
+
+    '2024-07-01_Dy100':
+      composition_label: 'Dy100'
+      beam_current: *default_beam_current
+      raw_config: 'default_raw_config'
+      processed_config: 'default_processed_config'
+      metadata_templates: 'default_metadata_templates'
+
+    # Add more physical single-particle datasets...
+    # Note: 14 additional physical_single_particle datasets are available and omitted here for brevity
+  
+  # Add more dataset groups as needed (e.g., simulated_single_particle, simulated_multi_particle)...
+            
+# Datasets to run inference on using the trained model
+inference_data:
+
+  # Group for physical experiments with multiple particles
+  physical_multi_particle:
+
+    '2025-07-02_6-component-mixture':
+      # The list of all possible nanoparticle classes present in the multi-color mixture
+      # and thus that the model can predict for this specific experiment. The definitions 
+      # for these classes are in class_definitions.yaml.
+      possible_composition_labels:
+        - 'Dy100'
+        - 'Ho100'
+        - 'Dy80Ho20'
+        - 'Dy65Ho35'
+        - 'Dy50Ho50'
+        - 'Dy30Ho70'
+
+      # Priors for the Bayesian model.
+      # These values are derived from the relative volumes of the nanoparticle suspensions 
+      # mixed to create the sample (e.g., 1:1:1:1:1:1 mixture by volume). 
+      # Note: The absolute particle concentration of each suspension was not independently 
+      # assessed; therefore, these priors assume comparable particle concentrations across
+      # the mixed volumes.
+      mixture_priors: 'equal_split'
+
+      # Experiment-specific instrument setting: The beam current is constant for all regions in this experiment
+      beam_current: *default_beam_current
+
+      # Configurations (defaults and templates must match those defined in config.yaml)
+      raw_config: 'default_raw_config'
+      processed_config: 'default_processed_config'
+      metadata_templates: 'default_metadata_templates'
+
+    # Add more physical_multi_particle datasets as needed...
+
+  # Add more dataset groups as needed (e.g., simulated data)...

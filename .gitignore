@@ -1,45 +1,32 @@
+# ===================================================================
+# Python, IDE, and OS Files
+# ===================================================================
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-
-# C extensions
-*.so
 
 # Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
 *.egg-info/
-.installed.cfg
 *.egg
-MANIFEST
 
 # Virtual Environments
 .env
 .venv
 env/
 venv/
-ENV/
-env.bak/
-venv.bak/
+
+# Temporary files and directories
+tmp/
+
+# Pytest
+.pytest_cache/
+
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
-# IDE / Editor specific files
+# IDE / Editor-specific files
 .idea/
 .vscode/
 
@@ -47,11 +34,51 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
+# Testing and coverage reports
+.coverage
+
+# Assistant doc
+CLAUDE.md
+
+# ===================================================================
 # Data Files
-data/
-*.csv
-*.json
-*.pkl
-*.parquet
-*.h5
-*.xlsx
+# ===================================================================
+
+# Ignore all files at any level inside the data directories, while
+# not ignoring the directories themselves...
+data/**/*
+
+# ... and make global exceptions for the files we always want to keep
+# (e.g., .gitkeep placeholder files and demo metadata CSV).
+!**/.gitkeep
+!data/training/physical/single_particle/2024-06-29_Dy100/metadata/2024-06-29_Dy100_regions.csv
+
+# For later stages of the project, we may want to track a few select TIF files
+# for demonstration purposes. If so, we can uncomment the relevant lines below.
+# These TIF files will be tracked using Git LFS to avoid bloating the repository:
+# !data/training/physical/single_particle/2024-06-29_Dy100/raw/region_1/SEM/NP_1.tif
+# !data/training/physical/single_particle/2024-06-29_Dy100/raw/region_1/CL_SE/SE/SE2_NP_1.tif
+# !data/training/physical/single_particle/2024-06-29_Dy100/raw/region_1/CL_SE/CL/blue/593CP_NP_1.tif
+
+# ===================================================================
+# Temporary ignores (for architectural commit)
+# ===================================================================
+# During initial development, ignore contents of these directories while
+# preserving the project structure. Remove these rules as modules are implemented.
+
+# Ignore module contents during scaffolding phase
+/src/processing/*
+/src/features/*
+/src/models/*
+/src/visualization/*
+/scripts/*
+
+# ... but preserve package structure
+!src/processing/__init__.py
+!src/features/__init__.py
+!src/models/__init__.py
+!src/visualization/__init__.py
+!/scripts/.gitkeep
+
+# Always keep the init.py files.
+!/src/**/__init__.py

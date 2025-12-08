@@ -1,0 +1,55 @@
+# ===================================================================
+# Reusable Definitions (Anchors)
+# ===================================================================
+# This file contains reusable configuration templates referenced by 
+# experiment entries in experiments.yaml. Each anchor can be referenced
+# by name (e.g., raw_config: 'default_raw_config').
+
+definitions:
+  # Raw data configuration
+  # Note: Raw files use 'NP_' prefix for both single and multi-particle data,
+  # and for both acquisitions types (CL_SE and SEM). Processing pipeline uses
+  # 'region_' identifiers to disambiguate.
+  default_raw_config: &default_raw_config
+    acquisitions:
+      CL_SE:
+        CL:
+          blue:
+            target_dopant: 'Tb'
+            source_prefix: '593CP_NP_'
+          green:
+            target_dopant: 'Dy'
+            source_prefix: '593SP_NP_'
+          red:
+            target_dopant: 'Ho'
+            source_prefix: '593LP_NP_'
+        SE:
+          target_dopant: null  # 'SE' acquisition is non-element-specific; null is intentional
+          source_prefix: 'SE2_NP_'
+      SEM:
+        target_dopant: null  # 'SEM' acquisition is non-element-specific; null is intentional
+        source_prefix: 'NP_'
+
+  # Processed data configuration
+  default_processed_config: &default_processed_config
+
+    summed_images:
+      outputs:
+        # Only CL_SE acquisitions are processed for summation
+        CL_SE:
+          CL:
+            blue:
+              filename_prefix: 'summed_blue'
+            green:
+              filename_prefix: 'summed_green'
+            red:
+              filename_prefix: 'summed_red'
+          SE:
+            filename_prefix: 'summed_SE2'
+      # Add processing method parameters and summaries here as needed...
+
+    # Add additional processing methods here as needed...
+
+  # Metadata file templates
+  default_metadata_templates: &default_metadata_templates
+    regions: '{id}_regions.csv'
