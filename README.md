@@ -2,7 +2,7 @@
 
 A **physics-informed, configuration-driven** image analysis pipeline for classifying rare-earth doped, multicolor nanoparticles using **simultaneous cathodoluminescence (CL) and secondary electron (SE) imaging**, co-registered with higher-resolution **scanning electron microscopy (SEM)**. 
 
-This architecture leverages **multi-modal data fusion** to solve the inverse problem of characterizing heterogeneous mixtures at the single-particle level, utilizing **Bayesian inference** to rigorously decode element-specific optical signatures. The nanoparticle synthesis, imaging technique development, and data acquisition were performed at the [Prigozhin Lab at Harvard University](https://prigozhin.hsites.harvard.edu).
+This architecture leverages **multi-modal data fusion** to solve the inverse problem of characterizing heterogeneous mixtures at the single-particle level, utilizing **Bayesian inference** to rigorously decode element-specific optical signatures. The nanoparticle synthesis, imaging technique development, and data acquisition were performed by collaborators at the [Prigozhin Lab at Harvard University](https://prigozhin.hsites.harvard.edu).
 
 
 [![Python CI](https://github.com/smerminod/multicolor-nanoparticle-classification/actions/workflows/ci.yaml/badge.svg)](https://github.com/smerminod/multicolor-nanoparticle-classification/actions)
@@ -24,7 +24,7 @@ This architecture leverages **multi-modal data fusion** to solve the inverse pro
 
 ## The Scientific Problem
 
-Rare-earth doped nanoparticles (NaF₄:RE³⁺)—often referred to in literature as Lanthanide Nanoparticles (LNPs)—are critical materials for applications in bioimaging, photonics, and quantum technologies. However, **determining the elemental composition of individual nanoparticles in heterogeneous mixtures remains a significant challenge**. Traditional spectroscopic methods do not provide single-particle optical properties, while electron microscopy alone only provides structural information.
+Rare-earth-based nanoparticles (NaREF₄)—often referred to in literature as Lanthanide Nanoparticles (LNPs)—are critical materials for applications in bioimaging, photonics, and quantum technologies. However, **determining the elemental composition of individual nanoparticles in heterogeneous mixtures remains a significant challenge**. Traditional spectroscopic methods do not provide single-particle optical properties, while electron microscopy alone only provides structural information.
 
 This project addresses this gap by developing a computational pipeline to analyze a **novel multi-modal dataset** where each nanoparticle is imaged using:
 1) **Scanning Electron Microscopy (SEM)**, for high-resolution structural information
@@ -38,7 +38,7 @@ This multi-modal imaging enables **direct mapping of optical properties to physi
 
 **CL acts as a spectral fingerprint:** when excited by the electron beam, rare-earth dopants exhibit **element-specific photon emission**. This pipeline classifies particles by matching their observed spectral signatures to known elemental compositions.
 
-| Element | Peak Emission Wavelength | Detection Filter Range | CL Channel Name | 
+| Element | Peak Emission Wavelength | Detection Filter Range | Channel Name | 
 |---------|-------------------|------------|------------------|
 | **Tb** (Terbium) | 547 nm (green) | 530—560 nm | "Blue" |
 | **Dy** (Dysprosium) | 573 nm (green-yellow) | 563—588 nm | "Green" |
@@ -47,7 +47,7 @@ This multi-modal imaging enables **direct mapping of optical properties to physi
 | **Y** (Yttrium) | No visible CL | — | — |
 
 > [!NOTE]
-> "CL Channel Name" serves as a relative configuration alias rather than a fixed physical descriptor. Mapping Terbium (547 nm) to "Blue" not only distinguishes it from Dysprosium ("Green") but also enforces a generalized, element-agnostic schema. This allows the pipeline to readily adapt to future material systems with different spectral profiles without modifying the core codebase.
+> "Channel Name" serves as a relative configuration alias rather than a fixed physical descriptor. Mapping Terbium (547 nm) to "Blue" not only distinguishes it from Dysprosium ("Green") but also enforces a generalized, element-agnostic schema. This allows the pipeline to readily adapt to future material systems with different spectral profiles without modifying the core codebase.
 
 ### Representative Results
 
@@ -63,7 +63,7 @@ This multi-modal imaging enables **direct mapping of optical properties to physi
 ## Key Computational Challenges
 
 Our analysis of cathodoluminescence (CL) datasets necessitates robust data processing strategies. This involves specific signal processing challenges with analogies to those found in neuroimaging:
-1. **Multi-Modal Data Fusion**: Integrating functional data (low-resolution CL) with structural data (high-resolution SEM) to bridge the resolution gap between elemental identity and physical morphology, **similar to fMRI-to-MRI registration**.
+1. **Multi-Modal Data Fusion**: Integrating functional data (low-resolution CL) with structural data (high-resolution SEM) to bridge the gap between elemental identity and physical morphology, **similar to fMRI-to-MRI registration**.
 2. **Signal Unmixing**: High particle density leads to CL signal overlap between adjacent nano-emitters. Furthermore, non-local electron excitation creates long-range spatial crosstalk **similar to volume conduction** in electrophysiology, where the recorded signal is a superposition of local and distant sources.
 3. **Probabilistic Population Decoding**: Going beyond simple classification to **probabilistic decoding of heterogeneous populations** of nanoparticles. The challenge is to infer a latent variable (elemental composition) from noisy observations (CL photon counts).
 
@@ -99,7 +99,7 @@ The **declarative YAML-based configuration system** ensures reproducibility and 
 - **Full Data Provenance**: The configuration system creates an unbreakable audit trail. Every processed output can be traced back to the exact experimental parameters and software version used to generate it.
 - **Comprehensive Validation**: Pydantic schemas with cross-file reference checking and scientific constraint validation
 - **Automated Path Management**: Intelligent directory structure generation following best practices conventions
-- **Extensive Testing**: 120 tests with 93% coverage, including integration tests with real configuration files
+- **Extensive Testing**: 120 tests with 96% coverage, including integration tests with real configuration files
 - **CI/CD Pipeline**: Automated testing, linting (Ruff), and coverage reporting (Codecov)
 - **Containerization**: Reproducible Docker environment for both production pipelines and interactive development
 
@@ -194,7 +194,10 @@ Mount your local source directory into the container to edit configurations loca
 
 ```bash
 # Launch a bash shell with your current directory mounted to /app
-docker run --rm -it -v "$(pwd)":/app nanoparticle-classifier:dev /bin/bash
+# Note: We mount to /app to overlay code, but ensure local artifacts don't conflict
+docker run --rm -it \
+  -v "$(pwd)":/app \
+  nanoparticle-classifier:dev /bin/bash
 
 # Inside the container:
 # 1. Edit e.g. config.yaml on your host machine (changes appear instantly)
@@ -239,17 +242,18 @@ data/training/physical/single_particle/2024-06-29_Dy100/  # Example experiment
 
 ```
 .
+├── assets/                     # Documentation images and figures
 ├── class_definitions.yaml      # Nanoparticle class definitions with elemental fractions
 ├── config.yaml                 # Processing templates and configuration anchors
 ├── experiments.yaml            # Experiment registry with metadata
-├── main.py                     # Demo/smoke test entry point
+├── main.py                     # Primary entry point (currently runs demo/validation)
 │
 ├── src/
 │   ├── data/
 │   │   ├── schemas.py          # Pydantic validation schemas (89 tests)
 │   │   └── config_loader.py    # Configuration loading and merging (31 tests)
 │   ├── processing/             # Image preprocessing (in development)
-│   ├── features/               # Feature extraction (planned)
+│   ├── features/               # Feature extraction (in development)
 │   ├── models/                 # Classification models (planned)
 │   └── visualization/          # Plotting utilities (planned)
 │
@@ -261,12 +265,14 @@ data/training/physical/single_particle/2024-06-29_Dy100/  # Example experiment
 │   └── 00_configuration_system_demo.ipynb  # Interactive demo
 │
 ├── data/                       # Experimental data (structure auto-generated)
-│   ├── training/
-│   │   └── physical/single_particle/2024-06-29_Dy100/  # Example experiment
-│   └── inference/
-│       └── physical/multi_particle/2025-07-02_6-component-mixture/  # Example experiment
+│   ├── training/...
+│   └── inference/...
 │
-└── scripts/                    # (Planned)
+├── scripts/                    # Utility scripts (Planned)
+│
+├── Dockerfile                  # Container definition for reproducible execution
+├── pyproject.toml              # Build system and tool configuration (Ruff, Pytest)
+└── requirements.txt            # Pinned production dependencies
 ```
 
 ---
@@ -274,8 +280,8 @@ data/training/physical/single_particle/2024-06-29_Dy100/  # Example experiment
 ## Configuration System
 
 The pipeline uses a **3-tier YAML configuration system** to separate concerns:
-1. **`class_definitions.yaml`**: Defines elemental identity (e.g., `Dy100` = 100% Dysprosium)
-2. **`config.yaml`**: Defines processing templates and logical channel identifiers (`blue`, `green`, `red`) to abstract hardware specifics
+1. **`class_definitions.yaml`**: Defines the physical ground truth (e.g., maps label `Dy100` to stoichiometry `{Tb: 0.0, Dy: 1.0, Ho: 0.0, Gd: 0.0, Y: 0.0}`)
+2. **`config.yaml`**: Defines processing templates, logical channel identifiers (`blue`, `green`, `red`) to abstract hardware specifics, and algorithm parameters
 3. **`experiments.yaml`**: The registry of all datasets, linking metadata to specific configurations
 
 The configuration system performs **comprehensive cross-validation**, including:
@@ -321,7 +327,7 @@ ruff check --fix src tests main.py
 **Current Phase:** Architecture & Configuration Setup (v0.1.0 - Architectural Commit)
 - ✅ **Completed**:
     - Configuration system
-    - Testing (93% coverage)
+    - Testing (96% coverage)
     - Docker
     - CI/CD
 - 🚧 **In Development**:
