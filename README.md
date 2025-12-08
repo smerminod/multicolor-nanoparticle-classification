@@ -2,11 +2,11 @@
 
 A **physics-informed, configuration-driven** image analysis pipeline for classifying rare-earth doped, multicolor nanoparticles using **simultaneous cathodoluminescence (CL) and secondary electron (SE) imaging**, co-registered with higher-resolution **scanning electron microscopy (SEM)**. 
 
-This architecture leverages **multi-modal data fusion** to solve the inverse problem of characterizing heterogeneous mixtures at the single-particle level, utilizing **Bayesian inference** to rigorously decode element-specific optical signatures. The nanoparticle synthesis, imaging technique development, and data acquisition were performed at the [**Prigozhin Lab at Harvard University**](https://prigozhin.hsites.harvard.edu).
+This architecture leverages **multi-modal data fusion** to solve the inverse problem of characterizing heterogeneous mixtures at the single-particle level, utilizing **Bayesian inference** to rigorously decode element-specific optical signatures. The nanoparticle synthesis, imaging technique development, and data acquisition were performed at the [Prigozhin Lab at Harvard University](https://prigozhin.hsites.harvard.edu).
 
 
 [![Python CI](https://github.com/smerminod/multicolor-nanoparticle-classification/actions/workflows/ci.yaml/badge.svg)](https://github.com/smerminod/multicolor-nanoparticle-classification/actions)
-[![codecov](https://codecov.io/gh/smerminod/multicolor-nanoparticle-classification/branch/main/graph/badge.svg)](https://codecov.io/gh/smerminod/multicolor-nanoparticle-classification)
+[![codecov](https://codecov.io/gh/smerminod/multicolor-nanoparticle-classification/graph/badge.svg)](https://codecov.io/gh/smerminod/multicolor-nanoparticle-classification)
 [![Python 3.12-3.13](https://img.shields.io/badge/python-3.12--3.13-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
@@ -84,7 +84,7 @@ The pipeline is designed to implement an automated dopant assignment framework a
 
 ### Future Roadmap (`v2.0+`)
 
-From version `v2.0`, we will transition to a **Probabilistic Video Vision Transformer architecture (ViViT + Bayesian Layer)**. This end-to-end deep learning framework will learn to **perform simultaneous signal unmixing and probabilistic decoding**, replacing explicit physical forward models with learned representations. It will resolve complex, non-linear environmental interactions that heuristic masks cannot address. This model will be trained on large-scale synthetic CL/SE datasets generated via the Quantum Monte Carlo program [**CASINO**](https://vallico.net/casinoqmc/).
+From version `v2.0`, we will transition to a **Probabilistic Video Vision Transformer architecture (ViViT + Bayesian Layer)**. This end-to-end deep learning framework will learn to **perform simultaneous signal unmixing and probabilistic decoding**, replacing explicit physical forward models with learned representations. It will resolve complex, non-linear environmental interactions that heuristic masks cannot address. This model will be trained on large-scale synthetic CL/SE datasets generated via the Quantum Monte Carlo program [CASINO](https://vallico.net/casinoqmc/).
 
 ---
 
@@ -370,7 +370,7 @@ See [`requirements.txt`](requirements.txt) for pinned versions and complete depe
 
 ## Contributing
 
-This is a research project under active development. For questions, bug reports, or collaboration inquiries, please [**open an Issue**](https://github.com/smerminod/multicolor-nanoparticle-classification/issues).
+This is a research project under active development. For questions, bug reports, or collaboration inquiries, please [open an Issue](https://github.com/smerminod/multicolor-nanoparticle-classification/issues).
 
 ---
 
@@ -410,7 +410,7 @@ MIT License — See [**LICENSE**](LICENSE) for details.
 
 ## Author
 
-**Simon Merminod** | Visit 👉 [my website](https://www.simonmerminod.com)
+**Simon Merminod** | Visit my [website](https://www.simonmerminod.com)
 
 ---
 
@@ -419,4 +419,4 @@ MIT License — See [**LICENSE**](LICENSE) for details.
 - Configuration architecture inspired by best practices in scientific computing and reproducible research
 - Testing approach follows modern Python conventions (pytest, parametrization, fixtures)
 - CI/CD setup based on GitHub Actions best practices for Python projects
-- Nanoparticle synthesis, multi-modal SEM-based imaging technique, and data acquisition performed by collaborators at the [**Prigozhin Lab at Harvard University**](https://prigozhin.hsites.harvard.edu) (see Author Contributions section in Abdul Rehman *et al.* (2025)).
+- Nanoparticle synthesis, multi-modal SEM-based imaging technique, and data acquisition performed by collaborators at the [Prigozhin Lab at Harvard University](https://prigozhin.hsites.harvard.edu) (see Author Contributions section in Abdul Rehman *et al.* (2025)).
