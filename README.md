@@ -90,7 +90,7 @@ From version `v2.0`, we will transition to a **Probabilistic Video Vision Transf
 
 ## Why This Architecture?
 
-The **declarative YAML-based configuration system** ensures reproducibility and scalability. Furthermore, the automated directory hierarchy adopts **data organization principles analogous to BIDS (Brain Imaging Data Structure)**: it enforces a strict separation of structural (SEM, SE) and functional (CL) modalities, isolates immutable `raw/` acquisitions from `processed/` derivatives, and strictly couples imaging data with centralized metadata registries to ensure full data provenance.
+The **declarative YAML-based configuration system** ensures reproducibility and scalability. Furthermore, the **programmatic data organization** adopts **principles analogous to BIDS (Brain Imaging Data Structure)**: it enforces a strict separation of structural (SEM, SE) and functional (CL) modalities, isolates immutable `raw/` acquisitions from `processed/` derivatives, and strictly couples imaging data with centralized metadata registries to ensure full data provenance.
 
 ### Key Features
 
@@ -98,7 +98,7 @@ The **declarative YAML-based configuration system** ensures reproducibility and 
 - **Probabilistic Multivariate Classification**: Implements the Bayesian framework described above
 - **Full Data Provenance**: The configuration system ensures complete traceability. Every processed output can be traced back to the exact experimental parameters and software version used to generate it.
 - **Comprehensive Validation**: Pydantic schemas for YAML structure validation; config loader performs cross-file reference checking
-- **Automated Path Management**: Intelligent directory structure generation following best practices conventions
+- **Automated Path Management**: Intelligent directory structure construction following best practices
 - **Extensive Testing**: 120 tests with 96% coverage, including integration tests with real configuration files
 - **CI/CD Pipeline**: Automated testing, linting (Ruff), and coverage reporting (Codecov)
 - **Containerization**: Reproducible Docker environment for both production pipelines and interactive development
@@ -264,7 +264,7 @@ data/training/physical/single_particle/2024-06-29_Dy100/  # Example experiment
 ├── notebooks/
 │   └── 00_configuration_system_demo.ipynb  # Interactive demo
 │
-├── data/                       # Experimental data (structure auto-generated)
+├── data/                       # Experimental data
 │   ├── training/...
 │   └── inference/...
 │
